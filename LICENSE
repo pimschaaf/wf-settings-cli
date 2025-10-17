@@ -1,0 +1,37 @@
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2025 Open Roads
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+---
+
+ADDITIONAL LEGAL NOTICES:
+
+This plugin (WF Settings CLI) is an independent tool that provides WP-CLI
+commands for configuring the Wordfence Security plugin.
+
+This plugin:
+- Is NOT affiliated with, endorsed by, or sponsored by Defiant, Inc. or Wordfence
+- Uses only PUBLIC APIs provided by the Wordfence plugin (wfConfig class)
+- Does NOT modify Wordfence core files or bypass any premium features
+- Only works with settings available in the FREE version of Wordfence
+- Is provided as-is under GPLv3 license
+
+"Wordfence" is a registered trademark of Defiant, Inc.
+This plugin merely interacts with the publicly available Wordfence plugin API.
+
+For the full text of the GNU General Public License v3.0, visit:
+https://www.gnu.org/licenses/gpl-3.0.html
