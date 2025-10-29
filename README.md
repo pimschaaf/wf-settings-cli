@@ -350,25 +350,23 @@ Contributions are welcome! Please:
 
 ## License
 
-GPL v2 or later. See [LICENSE](LICENSE) for details.
+GPL v3 or later. See [LICENSE](LICENSE) for details.
 
 ## Credits
 
-Developed by [Open Roads](https://open-roads.nl)
+Developed by [Pim Schaaf](https://open-roads.nl)
 
 Built with ❤️ for the WordPress community.
 
 ## Changelog
-
-### 2.0.0 (2025-10-17)
-- **New**: Generic `wp wf-config` command
-- **New**: Firewall, scanner, and alerts commands
-- **Enhanced**: Automatic dependency checking
-- **Enhanced**: WordPress coding standards compliance
-- **Security**: Improved input validation
 
 ### 1.0.0 (2025-10-16)
 - Initial release
 - Brute force protection commands
 - Backup/restore functionality
 - Export/import support
+- **New**: Generic `wp wf-config` command
+- **New**: Firewall, scanner, and alerts commands
+- **Enhanced**: Automatic dependency checking
+- **Enhanced**: WordPress coding standards compliance
+- **Security**: Improved input validation

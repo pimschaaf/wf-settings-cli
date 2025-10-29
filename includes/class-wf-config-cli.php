@@ -189,7 +189,9 @@ class WF_Config_CLI_Command {
         $where_clause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
         $limit_clause = $limit ? "LIMIT " . intval($limit) : '';
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name from wpdb->prefix (safe) + hardcoded string, WHERE clause already prepared
         $query = "SELECT name, val FROM {$table} {$where_clause} ORDER BY name {$limit_clause}";
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Query parts prepared above, direct access needed for CLI tool
         $results = $wpdb->get_results($query, ARRAY_A);
 
         if (empty($results)) {
@@ -258,7 +260,9 @@ class WF_Config_CLI_Command {
         }
 
         $where_clause = !empty($where) ? 'WHERE ' . implode(' AND ', $where) : '';
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name from wpdb->prefix (safe) + hardcoded string, WHERE clause already prepared
         $query = "SELECT name, val FROM {$table} {$where_clause} ORDER BY name";
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Query parts prepared above, direct access needed for CLI tool
         $results = $wpdb->get_results($query, ARRAY_A);
 
         if (empty($results)) {
@@ -465,7 +469,7 @@ class WF_Config_CLI_Command {
 
         update_option($backup_key, [
             'timestamp' => $timestamp,
-            'date' => date('Y-m-d H:i:s', $timestamp),
+            'date' => gmdate('Y-m-d H:i:s', $timestamp),
             'key' => $key,
             'value' => $value
         ], false);

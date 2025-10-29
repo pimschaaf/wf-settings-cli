@@ -2,9 +2,9 @@
 Contributors: pimschaaf
 Tags: wp-cli, cli, automation, security, configuration
 Requires at least: 5.0
-Tested up to: 6.4
+Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,7 +196,19 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 
 == Changelog ==
 
-= 2.0.0 - 2025-10-17 =
+= 2.0.1 - 2025-10-29 =
+* Fixed: WordPress.org plugin directory compliance issues
+* Fixed: Replaced date() with gmdate() to avoid timezone issues
+* Fixed: Added proper phpcs:ignore annotations for database queries
+* Fixed: Updated "Tested up to" WordPress 6.8
+* Fixed: Removed .gitignore from distribution
+
+= 1.0.0 - 2025-10-16 =
+* Initial release
+* `wp wf-brute` command for brute force protection settings
+* Automatic backup before changes
+* Dry-run mode
+* Export/import functionality
 * **New**: Generic `wp wf-config` command for any Wordfence setting
 * **New**: `wp wf-firewall` command for firewall/WAF configuration
 * **New**: `wp wf-scanner` command for scanner settings
@@ -208,20 +220,11 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 * **Security**: Added phpcs annotations for superglobal access
 * **Security**: Improved input sanitization and validation
 
-= 1.0.0 - 2025-10-16 =
-* Initial release
-* `wp wf-brute` command for brute force protection settings
-* Automatic backup before changes
-* Dry-run mode
-* Export/import functionality
-
 == Upgrade Notice ==
-
-= 2.0.0 =
-Major update with new commands for firewall, scanner, and alerts. Fully backwards compatible with v1.0.
 
 = 1.0.0 =
 Initial release. Requires Wordfence Security to be installed and activated.
+With commands for firewall, scanner, and alerts.
 
 == Additional Info ==
 

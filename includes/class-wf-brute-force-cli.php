@@ -35,7 +35,7 @@ class WF_Brute_Force_CLI_Command {
 
         update_option($backup_key, [
             'timestamp' => $timestamp,
-            'date' => date('Y-m-d H:i:s', $timestamp),
+            'date' => gmdate('Y-m-d H:i:s', $timestamp),
             'settings' => $settings
         ], false);
 
@@ -412,13 +412,16 @@ class WF_Brute_Force_CLI_Command {
 
         if ($search) {
             $query = $wpdb->prepare(
+                // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name from wpdb->prefix (safe) + hardcoded string, cannot be prepared
                 "SELECT name, val FROM {$table} WHERE name LIKE %s ORDER BY name",
                 '%' . $wpdb->esc_like($search) . '%'
             );
         } else {
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name from wpdb->prefix (safe) + hardcoded string, cannot be prepared
             $query = "SELECT name, val FROM {$table} ORDER BY name";
         }
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Dynamic query with table name, CLI tool
         $results = $wpdb->get_results($query, ARRAY_A);
 
         if (empty($results)) {
