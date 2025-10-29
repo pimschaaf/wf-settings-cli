@@ -4,7 +4,7 @@ Tags: wp-cli, cli, automation, security, configuration
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -195,6 +195,11 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 4. Applying security settings across multiple WordPress installations
 
 == Changelog ==
+
+= 2.0.2 - 2025-10-29 =
+* Fixed: Plugin loading order issue where WP-CLI commands weren't registered
+* Fixed: Wrapped command registration in 'plugins_loaded' hook to ensure Wordfence loads first
+* Improved: Commands now properly available when both plugins are active
 
 = 2.0.1 - 2025-10-29 =
 * Fixed: WordPress.org plugin directory compliance issues

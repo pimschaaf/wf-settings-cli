@@ -3,7 +3,7 @@
  * Plugin Name: WF Settings CLI
  * Plugin URI: https://github.com/pimschaaf/wf-settings-cli
  * Description: WP-CLI commands for managing WF Security plugin settings programmatically. Independent tool for automation and bulk configuration.
- * Version: 2.0.1
+ * Version: 2.0.2
  * Author: Open Roads
  * Author URI: https://open-roads.nl
  * Requires at least: 5.0
@@ -58,7 +58,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WF_SETTINGS_CLI_VERSION', '2.0.1');
+define('WF_SETTINGS_CLI_VERSION', '2.0.2');
 define('WF_SETTINGS_CLI_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WF_SETTINGS_CLI_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WF_SETTINGS_CLI_PLUGIN_FILE', __FILE__);
@@ -141,14 +141,20 @@ add_action('admin_init', 'wf_settings_cli_check_dependencies');
  * All commands use the public wfConfig API provided by Wordfence.
  */
 if (defined('WP_CLI') && WP_CLI) {
-    // Verify the public API is available
-    if (class_exists('wfConfig')) {
-        require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-config-cli.php';
-        require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-brute-force-cli.php';
-        require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-firewall-cli.php';
-        require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-scanner-cli.php';
-        require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-alerts-cli.php';
-    } else {
-        WP_CLI::warning('WF Settings CLI: Required plugin (Wordfence Security) is not active. Commands will not be available.');
-    }
+    /**
+     * Load CLI commands after all plugins are loaded.
+     * This ensures Wordfence is loaded before checking for wfConfig class.
+     */
+    add_action('plugins_loaded', function() {
+        // Verify the public API is available
+        if (class_exists('wfConfig')) {
+            require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-config-cli.php';
+            require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-brute-force-cli.php';
+            require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-firewall-cli.php';
+            require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-scanner-cli.php';
+            require_once WF_SETTINGS_CLI_PLUGIN_DIR . 'includes/class-wf-alerts-cli.php';
+        } else {
+            WP_CLI::warning('WF Settings CLI: Required plugin (Wordfence Security) is not active. Commands will not be available.');
+        }
+    }, 20); // Priority 20 ensures Wordfence loads first
 }
