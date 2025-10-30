@@ -98,10 +98,17 @@ wp wf-config list --search=login
 # Filter by category
 wp wf-config list --category=brute-force
 
-# Export settings
+# Export ALL settings (complete audit)
 wp wf-config export /tmp/config.json
 
-# Import settings
+# Export only managed settings (blueprint for deployment)
+wp wf-config export /tmp/blueprint.json --managed-only
+
+# Export specific category
+wp wf-config export /tmp/brute-force.json --category=brute-force
+
+# Import settings (with preview and backup)
+wp wf-config import /tmp/config.json --dry-run
 wp wf-config import /tmp/config.json --backup
 ```
 
@@ -232,14 +239,46 @@ wp wf-config import /tmp/prod-config.json --url=staging.com --backup
 ### 4. Automated Security Audits
 
 ```bash
-# Export current configuration
+# Export ALL configuration for complete audit
 wp wf-config export /tmp/audit-$(date +%Y%m%d).json
+
+# Export ONLY manageable settings (blueprint)
+wp wf-config export /tmp/baseline-$(date +%Y%m%d).json --managed-only
 
 # Review critical settings
 wp wf-brute list
 wp wf-scanner list
 wp wf-alerts list
 ```
+
+### 5. Configuration Blueprints & Site Migrations
+
+```bash
+# Create a security baseline blueprint from your production site
+wp wf-config export /tmp/security-blueprint.json --managed-only
+
+# Preview what will change on a new site
+wp wf-config import /tmp/security-blueprint.json --dry-run
+
+# Apply blueprint to staging/development/new sites
+wp wf-config import /tmp/security-blueprint.json --backup
+
+# Bulk deployment across multiple sites
+for site in site1.com site2.com site3.com; do
+  wp wf-config import /tmp/security-blueprint.json --url=$site --force
+done
+```
+
+**What's the difference?**
+- **Full Export** (`wp wf-config export`): All 280+ Wordfence settings including internal state
+- **Blueprint Export** (`--managed-only`): Only ~42 settings this plugin can manage (security policies)
+
+**Use Cases for Blueprints:**
+- 📋 Create reusable security configuration templates
+- 🔄 Standardize settings across multiple WordPress sites
+- 🚀 Automate new site deployment with pre-approved security settings
+- 📊 Version control your security policies in git
+- 🔍 Easier auditing (smaller, focused configuration file)
 
 ## Options Reference
 
@@ -359,6 +398,14 @@ Developed by [Pim Schaaf](https://open-roads.nl)
 Built with ❤️ for the WordPress community.
 
 ## Changelog
+
+### 2.0.4 (2025-01-30)
+- **New Feature**: `--managed-only` flag for `wp wf-config export` to create configuration blueprints
+- **Enhancement**: Export only the ~42 settings that this plugin can manage (security policies)
+- **Feature**: Blueprint exports perfect for site migrations, standardized deployments, and version control
+- **Enhancement**: Better error handling for export with JSON encoding validation and bytes written confirmation
+- **Enhancement**: Binary blob (LONGBLOB) handling for database values
+- **Improvement**: Export command now supports invalid UTF-8 characters with JSON_INVALID_UTF8_SUBSTITUTE
 
 ### 2.0.3 (2025-01-30)
 - **Bug Fix**: Fixed table name case sensitivity issue for Wordfence configuration table

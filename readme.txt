@@ -4,7 +4,7 @@ Tags: wp-cli, cli, automation, security, configuration
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.3
+Stable tag: 2.0.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -128,8 +128,29 @@ Search for specific settings:
 Export all settings to JSON:
 `wp wf-config export /tmp/wordfence-config.json`
 
+Export only manageable settings (blueprint):
+`wp wf-config export /tmp/blueprint.json --managed-only`
+
 Import settings from JSON:
-`wp wf-config import /tmp/wordfence-config.json`
+`wp wf-config import /tmp/wordfence-config.json --dry-run`
+`wp wf-config import /tmp/blueprint.json --backup`
+
+= Configuration Blueprints & Migrations =
+
+Create reusable security configuration templates:
+`wp wf-config export /tmp/security-baseline.json --managed-only`
+
+Preview changes before applying:
+`wp wf-config import /tmp/security-baseline.json --dry-run`
+
+Deploy to multiple sites:
+`wp wf-config import /tmp/security-baseline.json --url=site.com --force`
+
+**Blueprint exports** include only the ~42 settings this plugin can manage (security policies), perfect for:
+* Creating standardized security configurations
+* Site migrations and cloning
+* Version control of security policies
+* Automated deployment workflows
 
 = Brute Force Protection =
 
@@ -196,6 +217,15 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 
 == Changelog ==
 
+= 2.0.4 - 2025-01-30 =
+* New: `--managed-only` flag for `wp wf-config export` to create configuration blueprints
+* New: Export only the ~42 settings that this plugin can manage (vs. all 280+ Wordfence settings)
+* Feature: Blueprint exports perfect for site migrations, audits, and version control
+* Enhancement: Better error handling for export with JSON encoding validation
+* Enhancement: Binary blob handling for LONGBLOB database values
+* Enhancement: Shows bytes written confirmation on successful export
+* Improved: Export command now supports binary data and invalid UTF-8 characters
+
 = 2.0.3 - 2025-01-30 =
 * Fixed: Table name case sensitivity issue for Wordfence configuration table
 * Fixed: "Table 'wp_wfConfig' doesn't exist" error on systems using lowercase table names
@@ -232,6 +262,9 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 * **Security**: Improved input sanitization and validation
 
 == Upgrade Notice ==
+
+= 2.0.4 =
+New feature: Configuration blueprints with --managed-only flag. Export only manageable settings for site migrations and standardized deployments.
 
 = 2.0.3 =
 Bug fix release: Fixes table name case sensitivity issue that caused errors on some MySQL/MariaDB configurations.

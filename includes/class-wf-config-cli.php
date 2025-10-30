@@ -226,10 +226,14 @@ class WF_Config_CLI_Command {
      * [--category=<category>]
      * : Export only specific category
      *
+     * [--managed-only]
+     * : Export only settings that can be managed by this plugin's commands
+     *
      * ## EXAMPLES
      *
      *     wp wf-config export /tmp/all-wf-config.json
      *     wp wf-config export /tmp/brute-force-config.json --category=brute-force
+     *     wp wf-config export /tmp/managed-settings.json --managed-only
      *
      * @when after_wp_load
      */
@@ -243,6 +247,7 @@ class WF_Config_CLI_Command {
         $file = $args[0];
         $search = isset($assoc_args['search']) ? $assoc_args['search'] : '';
         $category = isset($assoc_args['category']) ? $assoc_args['category'] : '';
+        $managed_only = isset($assoc_args['managed-only']);
 
         $table = wfDB::networkTable('wfConfig');
 
@@ -272,24 +277,50 @@ class WF_Config_CLI_Command {
         // Convert to associative array
         $settings = [];
         foreach ($results as $row) {
-            $settings[$row['name']] = $row['val'];
+            // Handle binary blob data - convert to string
+            $value = $row['val'];
+            if (is_resource($value)) {
+                $value = stream_get_contents($value);
+            }
+            $settings[$row['name']] = $value;
+        }
+
+        // Filter to managed-only settings if requested
+        if ($managed_only) {
+            $managed_keys = $this->get_managed_settings_keys();
+            $settings = array_intersect_key($settings, array_flip($managed_keys));
+
+            if (empty($settings)) {
+                WP_CLI::error('No managed settings found to export.');
+            }
         }
 
         $export = [
             'exported_at' => current_time('mysql'),
             'site_url' => get_site_url(),
             'category' => $category ?: 'all',
+            'managed_only' => $managed_only,
             'count' => count($settings),
             'settings' => $settings
         ];
 
-        $json = json_encode($export, JSON_PRETTY_PRINT);
+        $json = json_encode($export, JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE);
 
-        if (file_put_contents($file, $json) === false) {
+        if ($json === false) {
+            WP_CLI::error("Failed to encode settings to JSON: " . json_last_error_msg());
+        }
+
+        $bytes_written = file_put_contents($file, $json);
+
+        if ($bytes_written === false) {
             WP_CLI::error("Failed to write to file: {$file}");
         }
 
-        WP_CLI::success(sprintf("Exported %d settings to: %s", count($settings), $file));
+        if ($bytes_written === 0) {
+            WP_CLI::error("File created but no data written to: {$file}");
+        }
+
+        WP_CLI::success(sprintf("Exported %d settings (%d bytes) to: %s", count($settings), $bytes_written, $file));
     }
 
     /**
@@ -458,6 +489,57 @@ class WF_Config_CLI_Command {
         ];
 
         return $patterns[$category] ?? null;
+    }
+
+    /**
+     * Get list of all settings that can be managed by this plugin's commands.
+     *
+     * @return array List of setting keys
+     */
+    private function get_managed_settings_keys() {
+        return [
+            // Brute Force Protection (wp wf-brute)
+            'loginSecurityEnabled',
+            'loginSec_maxFailures',
+            'loginSec_maxForgotPasswd',
+            'loginSec_countFailMins',
+            'loginSec_lockoutMins',
+            'loginSec_lockInvalidUsers',
+            'loginSec_userBlacklist',
+            'loginSec_maskLoginErrors',
+            'loginSec_blockAdminReg',
+            'loginSec_disableAuthorScan',
+
+            // Firewall Settings (wp wf-firewall)
+            'firewallEnabled',
+            'autoBlockScanners',
+            'neverBlockBG',
+
+            // Scanner Settings (wp wf-scanner)
+            'scheduledScansEnabled',
+            'scansEnabled_core',
+            'scansEnabled_themes',
+            'scansEnabled_plugins',
+            'scansEnabled_malware',
+            'scansEnabled_fileContents',
+            'scansEnabled_posts',
+            'scansEnabled_comments',
+            'scansEnabled_scanImages',
+            'scansEnabled_highSense',
+            'scan_maxIssues',
+            'scan_maxDuration',
+
+            // Alert Settings (wp wf-alerts)
+            'alertEmails',
+            'alertOn_block',
+            'alertOn_loginLockout',
+            'alertOn_adminLogin',
+            'alertOn_breachLogin',
+            'alertOn_scanIssues',
+            'alertOn_update',
+            'alertOn_wordfenceDeactivated',
+            'alert_maxHourly',
+        ];
     }
 
     /**

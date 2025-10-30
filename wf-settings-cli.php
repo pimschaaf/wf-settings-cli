@@ -3,7 +3,7 @@
  * Plugin Name: WF Settings CLI
  * Plugin URI: https://github.com/pimschaaf/wf-settings-cli
  * Description: WP-CLI commands for managing WF Security plugin settings programmatically. Independent tool for automation and bulk configuration.
- * Version: 2.0.3
+ * Version: 2.0.4
  * Author: Open Roads
  * Author URI: https://open-roads.nl
  * Requires at least: 5.0
