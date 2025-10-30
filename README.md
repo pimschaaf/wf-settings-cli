@@ -271,7 +271,16 @@ done
 
 **What's the difference?**
 - **Full Export** (`wp wf-config export`): All 280+ Wordfence settings including internal state
-- **Blueprint Export** (`--managed-only`): Only ~42 settings this plugin can manage (security policies)
+- **Blueprint Export** (`--managed-only`): Only **116 manageable settings** (security policies you can configure)
+
+**Managed Settings Breakdown (v3.0.0):**
+- 🔐 **Brute Force Protection**: 20 settings (login security, 2FA, password policies)
+- 🛡️ **Firewall & WAF**: 13 settings (blocking, whitelist, alerts)
+- 🔍 **Scanner**: 33 settings (scan types, sensitivity, exclusions)
+- 📧 **Alerts**: 15 settings (email notifications, severity)
+- ⏱️ **Rate Limiting**: 10 settings (throttling, 404 detection)
+- 📊 **Live Traffic**: 10 settings (monitoring, filtering)
+- ⚙️ **General Security**: 15 settings (misc security options)
 
 **Use Cases for Blueprints:**
 - 📋 Create reusable security configuration templates
@@ -279,6 +288,7 @@ done
 - 🚀 Automate new site deployment with pre-approved security settings
 - 📊 Version control your security policies in git
 - 🔍 Easier auditing (smaller, focused configuration file)
+- 🎯 Focus only on actionable security settings (excludes internal state)
 
 ## Options Reference
 
@@ -398,6 +408,46 @@ Developed by [Pim Schaaf](https://open-roads.nl)
 Built with ❤️ for the WordPress community.
 
 ## Changelog
+
+### 3.0.0 (2025-01-30) - MAJOR RELEASE
+
+**🎉 Comprehensive Managed Settings Coverage**
+
+- **BREAKING**: Expanded from 42 to **116 manageable settings** (176% increase)
+- **New**: Complete coverage of all free Wordfence features (excludes premium/read-only)
+- **Enhancement**: Blueprint exports now include all actionable security settings
+
+**New Setting Categories:**
+- **Brute Force**: Expanded to 20 settings (added password policies, 2FA options, breach detection)
+- **Firewall**: Expanded to 13 settings (added WAF alerts, blocking customization, whitelist)
+- **Scanner**: Expanded to 33 settings (added 21 advanced scan options, exclusions, GeoIP)
+- **Alerts**: Expanded to 15 settings (added severity, throttling, non-admin login alerts)
+- **Rate Limiting**: NEW - 10 settings for throttling crawlers, humans, and 404s
+- **Live Traffic**: NEW - 10 settings for traffic monitoring and filtering
+- **General Security**: NEW - 15 settings for misc security options
+
+**What's Included Now:**
+- Password strength enforcement settings
+- Two-factor authentication options
+- Breach password checking
+- Application password controls
+- WAF alert configuration
+- IP whitelist/blacklist management
+- Custom block messages
+- 404 detection and allowed patterns
+- Rate limiting for humans vs crawlers
+- Live traffic monitoring controls
+- Comment spam scanning
+- WordPress version hiding
+- Code execution in uploads prevention
+- Admin bar menu display
+- And 80+ more actionable settings!
+
+**Migration Notes:**
+- Existing blueprints from v2.x remain compatible
+- New v3.0 blueprints include significantly more settings
+- No breaking changes to CLI commands or syntax
+- Recommended: Re-export blueprints to capture new settings
 
 ### 2.0.4 (2025-01-30)
 - **New Feature**: `--managed-only` flag for `wp wf-config export` to create configuration blueprints

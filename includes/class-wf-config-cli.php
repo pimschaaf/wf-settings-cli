@@ -494,11 +494,14 @@ class WF_Config_CLI_Command {
     /**
      * Get list of all settings that can be managed by this plugin's commands.
      *
+     * Total: 116 manageable settings (v3.0.0)
+     * Excludes: Premium features, read-only state, internal data
+     *
      * @return array List of setting keys
      */
     private function get_managed_settings_keys() {
         return [
-            // Brute Force Protection (wp wf-brute)
+            // Brute Force Protection (wp wf-brute) - 20 settings
             'loginSecurityEnabled',
             'loginSec_maxFailures',
             'loginSec_maxForgotPasswd',
@@ -509,13 +512,33 @@ class WF_Config_CLI_Command {
             'loginSec_maskLoginErrors',
             'loginSec_blockAdminReg',
             'loginSec_disableAuthorScan',
+            'loginSec_breachPasswds',
+            'loginSec_breachPasswds_enabled',
+            'loginSec_disableApplicationPasswords',
+            'loginSec_disableOEmbedAuthor',
+            'loginSec_enableSeparateTwoFactor',
+            'loginSec_requireAdminTwoFactor',
+            'loginSec_strongPasswds',
+            'loginSec_strongPasswds_enabled',
+            'alertOn_firstAdminLoginOnly',
+            'alertOn_firstNonAdminLoginOnly',
 
-            // Firewall Settings (wp wf-firewall)
+            // Firewall Settings (wp wf-firewall) - 13 settings
             'firewallEnabled',
             'autoBlockScanners',
             'neverBlockBG',
+            'bannedURLs',
+            'blockCustomText',
+            'blockedTime',
+            'whitelisted',
+            'wafAlertInterval',
+            'wafAlertOnAttacks',
+            'wafAlertThreshold',
+            'wafAlertWhitelist',
+            'displayAutomaticBlocks',
+            'allowed404s',
 
-            // Scanner Settings (wp wf-scanner)
+            // Scanner Settings (wp wf-scanner) - 33 settings
             'scheduledScansEnabled',
             'scansEnabled_core',
             'scansEnabled_themes',
@@ -528,8 +551,29 @@ class WF_Config_CLI_Command {
             'scansEnabled_highSense',
             'scan_maxIssues',
             'scan_maxDuration',
+            'scansEnabled_checkGSB',
+            'scansEnabled_checkHowGetIPs',
+            'scansEnabled_checkReadableConfig',
+            'scansEnabled_coreUnknown',
+            'scansEnabled_diskSpace',
+            'scansEnabled_fileContentsGSB',
+            'scansEnabled_geoipSupport',
+            'scansEnabled_oldVersions',
+            'scansEnabled_options',
+            'scansEnabled_passwds',
+            'scansEnabled_suspectedFiles',
+            'scansEnabled_suspiciousAdminUsers',
+            'scansEnabled_suspiciousOptions',
+            'scansEnabled_wafStatus',
+            'scansEnabled_wpscan_directoryListingEnabled',
+            'scansEnabled_wpscan_fullPathDisclosure',
+            'scan_exclude',
+            'scan_include_extra',
+            'scan_force_ipv4_start',
+            'scan_max_resume_attempts',
+            'lowResourceScansEnabled',
 
-            // Alert Settings (wp wf-alerts)
+            // Alert Settings (wp wf-alerts) - 15 settings
             'alertEmails',
             'alertOn_block',
             'alertOn_loginLockout',
@@ -539,6 +583,53 @@ class WF_Config_CLI_Command {
             'alertOn_update',
             'alertOn_wordfenceDeactivated',
             'alert_maxHourly',
+            'alertOn_nonAdminLogin',
+            'alertOn_lostPasswdForm',
+            'alertOn_wafDeactivated',
+            'alertOn_throttle',
+            'alertOn_severityLevel',
+            'email_summary_dashboard_widget_enabled',
+
+            // Rate Limiting (wp wf-rate-limit) - 10 settings
+            'max404Crawlers',
+            'max404Crawlers_action',
+            'max404Humans',
+            'max404Humans_action',
+            'maxGlobalRequests',
+            'maxGlobalRequests_action',
+            'maxRequestsCrawlers',
+            'maxRequestsCrawlers_action',
+            'maxRequestsHumans',
+            'maxRequestsHumans_action',
+
+            // Live Traffic (wp wf-traffic) - 10 settings
+            'liveTrafficEnabled',
+            'liveTraf_displayExpandedRecords',
+            'liveTraf_ignoreIPs',
+            'liveTraf_ignorePublishers',
+            'liveTraf_ignoreUA',
+            'liveTraf_ignoreUsers',
+            'liveTraf_maxAge',
+            'liveTraf_maxRows',
+            'ajaxWatcherDisabled_admin',
+            'ajaxWatcherDisabled_front',
+
+            // General Security & Options (wp wf-general) - 15 settings
+            'other_blockBadPOST',
+            'other_hideWPVersion',
+            'other_WFNet',
+            'other_scanComments',
+            'other_pwStrengthOnUpdate',
+            'deleteTablesOnDeact',
+            'disableCodeExecutionUploads',
+            'disableWAFIPBlocking',
+            'allowLegacy2FA',
+            'checkSpamIP',
+            'ssl_verify',
+            'spamvertizeCheck',
+            'liveActivityPauseEnabled',
+            'showAdminBarMenu',
+            'advancedCommentScanning',
         ];
     }
 

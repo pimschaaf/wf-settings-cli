@@ -4,7 +4,7 @@ Tags: wp-cli, cli, automation, security, configuration
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.4
+Stable tag: 3.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -217,6 +217,22 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 
 == Changelog ==
 
+= 3.0.0 - 2025-01-30 - MAJOR RELEASE =
+* **MAJOR**: Expanded managed settings from 42 to 116 (176% increase!)
+* **NEW**: Complete coverage of all free Wordfence configurable settings
+* **NEW**: Brute Force expanded to 20 settings (password policies, 2FA, breach detection)
+* **NEW**: Firewall expanded to 13 settings (WAF alerts, whitelist, custom messages)
+* **NEW**: Scanner expanded to 33 settings (21 advanced scan options, exclusions, GeoIP)
+* **NEW**: Alerts expanded to 15 settings (severity, throttling, non-admin logins)
+* **NEW**: Rate Limiting category - 10 settings for throttling crawlers/humans/404s
+* **NEW**: Live Traffic category - 10 settings for monitoring and filtering
+* **NEW**: General Security category - 15 misc security options
+* Includes: Password strength, 2FA options, IP whitelist/blacklist, custom blocks
+* Includes: 404 detection, rate limiting, traffic monitoring, comment spam scanning
+* Includes: Version hiding, code execution prevention, and 80+ more settings
+* Migration: Existing v2.x blueprints remain compatible
+* Recommended: Re-export blueprints to capture new v3.0 settings
+
 = 2.0.4 - 2025-01-30 =
 * New: `--managed-only` flag for `wp wf-config export` to create configuration blueprints
 * New: Export only the ~42 settings that this plugin can manage (vs. all 280+ Wordfence settings)
@@ -262,6 +278,9 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 * **Security**: Improved input sanitization and validation
 
 == Upgrade Notice ==
+
+= 3.0.0 =
+MAJOR RELEASE: 116 manageable settings (up from 42)! Complete coverage of all free Wordfence features. Blueprint exports now include password policies, 2FA, rate limiting, traffic monitoring, and 80+ more actionable settings. Recommended: Re-export your blueprints to capture new settings.
 
 = 2.0.4 =
 New feature: Configuration blueprints with --managed-only flag. Export only manageable settings for site migrations and standardized deployments.
