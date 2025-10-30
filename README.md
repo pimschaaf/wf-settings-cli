@@ -17,6 +17,7 @@ Powerful WP-CLI commands for managing all Wordfence Security settings programmat
 - 🔥 **Firewall & WAF** - Manage firewall settings with `wp wf-firewall`
 - 🔍 **Scanner Configuration** - Control malware scanning via `wp wf-scanner`
 - 📧 **Alert Management** - Set up email alerts with `wp wf-alerts`
+- 🔐 **Login Security** - Manage 2FA and login security with `wp wfls-config` and `wp wfls-2fa`
 - 💾 **Backup & Restore** - Automatic backups before changes
 - 🔄 **Export/Import** - Save and share configurations as JSON
 - ✅ **Dry-Run Mode** - Preview changes before applying
@@ -186,6 +187,85 @@ wp wf-alerts configure \
   --alert-on-scan-issues=1
 ```
 
+### `wp wfls-config` - Login Security Configuration
+
+Manage Wordfence Login Security settings:
+
+```bash
+# Get a Login Security setting
+wp wfls-config get require-2fa.administrator
+
+# Set a Login Security setting
+wp wfls-config set enable-auth-captcha 1
+
+# List all Login Security settings
+wp wfls-config list
+
+# Search for specific settings
+wp wfls-config list --search=2fa
+
+# Export Login Security settings
+wp wfls-config export /tmp/login-security.json
+
+# Export only managed settings
+wp wfls-config export /tmp/login-security-managed.json --managed-only
+
+# Import settings
+wp wfls-config import /tmp/login-security.json --dry-run
+wp wfls-config import /tmp/login-security.json --force
+```
+
+### `wp wfls-2fa` - Two-Factor Authentication Management
+
+Manage role-based 2FA requirements:
+
+```bash
+# List current 2FA status for all roles
+wp wfls-2fa list
+wp wfls-2fa list --format=json
+
+# Require 2FA for administrators
+wp wfls-2fa configure --administrator=required
+
+# Require 2FA for multiple roles
+wp wfls-2fa configure \
+  --administrator=required \
+  --editor=required \
+  --author=optional
+
+# Configure with grace period
+wp wfls-2fa configure \
+  --administrator=required \
+  --enable-grace-period \
+  --grace-period=7
+
+# Enable remember device feature
+wp wfls-2fa configure \
+  --remember-device \
+  --remember-duration=2592000
+
+# Quick command to require 2FA for all admins
+wp wfls-2fa require-admin
+
+# Preview changes
+wp wfls-2fa configure --administrator=required --dry-run
+
+# Apply without confirmation
+wp wfls-2fa configure --administrator=required --force
+```
+
+**2FA States:**
+- `required` - Users must enable 2FA (can't login without it after grace period)
+- `optional` - Users can choose to enable 2FA
+- `disabled` - 2FA not available for this role
+
+**Available Roles:**
+- `administrator`
+- `editor`
+- `author`
+- `contributor`
+- `subscriber`
+
 ## Common Use Cases
 
 ### 1. Harden Security After Attack
@@ -199,6 +279,12 @@ wp wf-brute configure \
   --max-login-failures=3 \
   --lockout-duration-mins=1440 \
   --block-invalid-usernames=1
+
+# Require 2FA for administrators
+wp wfls-2fa configure \
+  --administrator=required \
+  --enable-grace-period \
+  --grace-period=7
 
 wp wf-scanner configure \
   --scan-themes=1 \
@@ -408,6 +494,29 @@ Developed by [Pim Schaaf](https://open-roads.nl)
 Built with ❤️ for the WordPress community.
 
 ## Changelog
+
+### 3.1.0 (2025-01-30)
+
+**🔐 Login Security Support**
+
+- **New**: `wp wfls-config` command for managing Wordfence Login Security settings
+- **New**: `wp wfls-2fa` command for role-based 2FA management
+- **Feature**: Configure 2FA requirements per role (administrator, editor, author, contributor, subscriber)
+- **Feature**: Set 2FA grace periods and remember device options
+- **Feature**: Export/import Login Security settings with `--managed-only` support
+- **Enhancement**: 20 additional manageable settings for Login Security module
+- **Enhancement**: Conditional loading - Login Security commands only load if module is active
+- **Quick Command**: `wp wfls-2fa require-admin` to quickly enforce 2FA for administrators
+
+**Managed Login Security Settings:**
+- Role-based 2FA requirements (required, optional, disabled)
+- 2FA grace period configuration
+- Remember device settings
+- CAPTCHA integration
+- reCAPTCHA threshold
+- XML-RPC controls
+- WooCommerce integration
+- Login history display options
 
 ### 3.0.0 (2025-01-30) - MAJOR RELEASE
 

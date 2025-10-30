@@ -4,7 +4,7 @@ Tags: wp-cli, cli, automation, security, configuration
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 3.0.0
+Stable tag: 3.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -30,6 +30,7 @@ This plugin provides WP-CLI commands for system administrators, DevOps teams, an
 * **Firewall & WAF** (`wp wf-firewall`) - Manage firewall settings
 * **Scanner Configuration** (`wp wf-scanner`) - Control malware scanning options
 * **Alert Management** (`wp wf-alerts`) - Set up email alerts and notifications
+* **Login Security** (`wp wfls-config`, `wp wfls-2fa`) - Manage 2FA and Login Security module
 
 = Key Benefits =
 
@@ -206,6 +207,29 @@ Enable specific alerts:
 List alert settings:
 `wp wf-alerts list`
 
+= Login Security & 2FA =
+
+List current 2FA status for all roles:
+`wp wfls-2fa list`
+
+Require 2FA for administrators:
+`wp wfls-2fa configure --administrator=required`
+
+Require 2FA with grace period:
+`wp wfls-2fa configure --administrator=required --enable-grace-period --grace-period=7`
+
+Quick command to require 2FA for all admins:
+`wp wfls-2fa require-admin`
+
+Get Login Security setting:
+`wp wfls-config get require-2fa.administrator`
+
+List all Login Security settings:
+`wp wfls-config list`
+
+Export Login Security settings:
+`wp wfls-config export /tmp/login-security.json --managed-only`
+
 For complete documentation, visit: [GitHub Repository](https://github.com/pimschaaf/wordfence-settings-cli)
 
 == Screenshots ==
@@ -216,6 +240,17 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 4. Applying security settings across multiple WordPress installations
 
 == Changelog ==
+
+= 3.1.0 - 2025-01-30 =
+* New: `wp wfls-config` command for managing Wordfence Login Security settings
+* New: `wp wfls-2fa` command for role-based 2FA management
+* Feature: Configure 2FA requirements per role (administrator, editor, author, contributor, subscriber)
+* Feature: Set 2FA grace periods and remember device options
+* Feature: Quick command `wp wfls-2fa require-admin` to enforce 2FA for administrators
+* Feature: Export/import Login Security settings with --managed-only support
+* Enhancement: 20 additional manageable settings for Login Security module
+* Enhancement: Conditional loading - Login Security commands only load when module is active
+* Includes: Role-based 2FA, grace period controls, remember device, CAPTCHA, XML-RPC, WooCommerce integration
 
 = 3.0.0 - 2025-01-30 - MAJOR RELEASE =
 * **MAJOR**: Expanded managed settings from 42 to 116 (176% increase!)
@@ -278,6 +313,9 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 * **Security**: Improved input sanitization and validation
 
 == Upgrade Notice ==
+
+= 3.1.0 =
+Login Security support! New wp wfls-config and wp wfls-2fa commands for managing role-based 2FA, grace periods, CAPTCHA, and 20 additional Login Security settings. Commands load conditionally when Login Security module is active.
 
 = 3.0.0 =
 MAJOR RELEASE: 116 manageable settings (up from 42)! Complete coverage of all free Wordfence features. Blueprint exports now include password policies, 2FA, rate limiting, traffic monitoring, and 80+ more actionable settings. Recommended: Re-export your blueprints to capture new settings.
