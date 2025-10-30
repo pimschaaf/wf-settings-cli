@@ -408,7 +408,7 @@ class WF_Brute_Force_CLI_Command {
         $search = isset($assoc_args['search']) ? $assoc_args['search'] : '';
         $format = isset($assoc_args['format']) ? $assoc_args['format'] : 'table';
 
-        $table = $wpdb->prefix . 'wfConfig';
+        $table = wfDB::networkTable('wfConfig');
 
         if ($search) {
             $query = $wpdb->prepare(

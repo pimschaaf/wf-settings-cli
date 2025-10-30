@@ -171,7 +171,7 @@ class WF_Config_CLI_Command {
         $format = isset($assoc_args['format']) ? $assoc_args['format'] : 'table';
         $limit = isset($assoc_args['limit']) ? intval($assoc_args['limit']) : null;
 
-        $table = $wpdb->prefix . 'wfConfig';
+        $table = wfDB::networkTable('wfConfig');
 
         // Build query
         $where = [];
@@ -244,7 +244,7 @@ class WF_Config_CLI_Command {
         $search = isset($assoc_args['search']) ? $assoc_args['search'] : '';
         $category = isset($assoc_args['category']) ? $assoc_args['category'] : '';
 
-        $table = $wpdb->prefix . 'wfConfig';
+        $table = wfDB::networkTable('wfConfig');
 
         // Build query
         $where = [];

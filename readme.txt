@@ -4,7 +4,7 @@ Tags: wp-cli, cli, automation, security, configuration
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.2
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -196,6 +196,12 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 
 == Changelog ==
 
+= 2.0.3 - 2025-01-30 =
+* Fixed: Table name case sensitivity issue for Wordfence configuration table
+* Fixed: "Table 'wp_wfConfig' doesn't exist" error on systems using lowercase table names
+* Enhancement: Now uses wfDB::networkTable() method to respect Wordfence's table naming convention
+* Improved: Compatibility with different MySQL/MariaDB case sensitivity configurations
+
 = 2.0.2 - 2025-10-29 =
 * Fixed: Plugin loading order issue where WP-CLI commands weren't registered
 * Fixed: Wrapped command registration in 'plugins_loaded' hook to ensure Wordfence loads first
@@ -226,6 +232,9 @@ For complete documentation, visit: [GitHub Repository](https://github.com/pimsch
 * **Security**: Improved input sanitization and validation
 
 == Upgrade Notice ==
+
+= 2.0.3 =
+Bug fix release: Fixes table name case sensitivity issue that caused errors on some MySQL/MariaDB configurations.
 
 = 1.0.0 =
 Initial release. Requires Wordfence Security to be installed and activated.

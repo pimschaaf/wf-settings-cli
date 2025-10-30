@@ -360,6 +360,12 @@ Built with ❤️ for the WordPress community.
 
 ## Changelog
 
+### 2.0.3 (2025-01-30)
+- **Bug Fix**: Fixed table name case sensitivity issue for Wordfence configuration table
+- **Enhancement**: Now uses `wfDB::networkTable()` method to respect Wordfence's table naming convention
+- **Fix**: Resolves "Table 'wp_wfConfig' doesn't exist" error on systems using lowercase table names
+- Improved compatibility with different MySQL/MariaDB case sensitivity configurations
+
 ### 1.0.0 (2025-10-16)
 - Initial release
 - Brute force protection commands
